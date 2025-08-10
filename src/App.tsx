@@ -7,7 +7,8 @@ import Login from './components/Login';
 import Register from './components/Register';
 import type { Conversation, Message, User } from './types';
 import { getConversations, getMessagesByUser } from './services/api';
-import { socket } from './socket/socket';
+import { createSocket } from './socket/socket';
+import type { Socket } from 'socket.io-client';
 import SettingsIcon from './assets/SettingsIcon.svg?react';
 
 const theme = createTheme({
@@ -28,6 +29,7 @@ export default function App() {
   const [showLogin, setShowLogin] = useState(true);
   const [loading, setLoading] = useState(true);
   const [activeView, setActiveView] = useState<string>('chats');
+  const [socketInstance, setSocketInstance] = useState<Socket | null>(null);
 
   useEffect(() => {
     // Check if user is already logged in
@@ -39,6 +41,10 @@ export default function App() {
         const user = JSON.parse(userData);
         setCurrentUser(user);
         setIsAuthenticated(true);
+
+        // Create socket after login
+        const newSocket = createSocket(token);
+        setSocketInstance(newSocket);
       } catch {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
@@ -48,7 +54,7 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    if (isAuthenticated) {
+    if (isAuthenticated && socketInstance) {
       loadConversations();
 
       const handleMessage = (msg: Message) => {
@@ -101,13 +107,13 @@ export default function App() {
         });
       };
 
-      socket.on('message', handleMessage);
+      socketInstance.on('message', handleMessage);
 
       return () => {
-        socket.off('message', handleMessage);
+        socketInstance.off('message', handleMessage);
       };
     }
-  }, [isAuthenticated, selected]);
+  }, [isAuthenticated, selected, currentUser?.phone, socketInstance]);
 
   const loadConversations = async () => {
     try {
@@ -136,6 +142,11 @@ export default function App() {
   const handleLoginSuccess = () => {
     setIsAuthenticated(true);
     setShowLogin(true);
+    const token = localStorage.getItem('token');
+    if (token) {
+      const newSocket = createSocket(token);
+      setSocketInstance(newSocket);
+    }
   };
 
   const handleRegisterSuccess = () => {
@@ -149,7 +160,10 @@ export default function App() {
     setCurrentUser(null);
     setConversations([]);
     setSelected(null);
-    socket.disconnect();
+    if (socketInstance) {
+      socketInstance.disconnect();
+      setSocketInstance(null);
+    }
   };
 
   const switchToRegister = () => {

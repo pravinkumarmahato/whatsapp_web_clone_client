@@ -1,17 +1,18 @@
-import io from 'socket.io-client';
+import io, { Socket } from 'socket.io-client';
 
 const SERVER_URL = import.meta.env.VITE_SERVER_URL || 'http://localhost:5000';
 
-export const socket = io(SERVER_URL, {
-  auth: {
-    token: localStorage.getItem('token')
-  }
-});
+export function createSocket(token: string): Socket {
+  const socket = io(SERVER_URL, {
+    auth: { token }
+  });
 
-// Update token when it changes
-socket.on('connect', () => {
-  const token = localStorage.getItem('token');
-  if (token) {
-    socket.auth = { token };
-  }
-});
+  socket.on('connect', () => {
+    const newToken = localStorage.getItem('token');
+    if (newToken) {
+      socket.auth = { token: newToken };
+    }
+  });
+
+  return socket;
+}
