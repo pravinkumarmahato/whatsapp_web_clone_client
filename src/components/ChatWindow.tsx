@@ -149,15 +149,7 @@ export default function ChatWindow({ conversation, currentUser, onMessageSent, o
   const messageGroups = groupMessagesByDate(conversation.messages);
 
   return (
-    <Box sx={{ 
-        flex: 1, 
-        display: 'flex', 
-        flexDirection: 'column', 
-        bgcolor: '#efeae2',
-        paddingTop: { xs: 'env(safe-area-inset-top)', sm: 0 }, // Add safe area padding for mobile
-        height: '100vh',
-        boxSizing: 'border-box'
-      }}>
+    <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', bgcolor: '#efeae2' }}>
       {/* Header */}
       <Box sx={{ 
         bgcolor: '#f0f2f5', 
@@ -165,11 +157,7 @@ export default function ChatWindow({ conversation, currentUser, onMessageSent, o
         display: 'flex', 
         alignItems: 'center', 
         justifyContent: 'space-between',
-        borderBottom: '1px solid #e9edef',
-        position: 'sticky',
-        top: 0,
-        zIndex: 1000,
-        paddingTop: { xs: '16px', sm: '16px' }, // Add extra padding for mobile
+        borderBottom: '1px solid #e9edef'
       }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
           {onBackClick && (
