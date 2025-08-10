@@ -8,6 +8,19 @@
   box-sizing: border-box;
 }
 
+/* Mobile-first responsive design */
+:root {
+  --sidebar-width: 100%;
+  --chat-width: 100%;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --sidebar-width: 400px;
+    --chat-width: calc(100% - 400px);
+  }
+}
+
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',

@@ -30,6 +30,8 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const [activeView, setActiveView] = useState<string>('chats');
   const [socketInstance, setSocketInstance] = useState<Socket | null>(null);
+  const [isMobileView, setIsMobileView] = useState(window.innerWidth < 768);
+  const [showSidebar, setShowSidebar] = useState(true);
 
   useEffect(() => {
     // Check if user is already logged in
@@ -207,10 +209,125 @@ export default function App() {
         unreadCount: 0,
       });
       setActiveView('chats');
+      if (isMobileView) {
+        setShowSidebar(false);
+      }
     };
     window.addEventListener('startNewChat', handler);
     return () => window.removeEventListener('startNewChat', handler);
-  }, [conversations]);
+  }, [conversations, isMobileView]);
+
+  // Handle resize for mobile responsiveness
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobileView(window.innerWidth < 768);
+      if (window.innerWidth >= 768) {
+        setShowSidebar(true);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const handleConversationSelect = (wa_id: string) => {
+    selectUser(wa_id);
+    if (isMobileView) {
+      setShowSidebar(false);
+    }
+  };
+
+  const handleBackToList = () => {
+    setShowSidebar(true);
+    setSelected(null);
+  };
+
+  if (loading) {
+    return (
+      <Box sx={{ 
+        height: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        bgcolor: '#00a884'
+      }}>
+        <Typography variant="h6" color="white">
+          Loading...
+        </Typography>
+      </Box>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <>
+        {showLogin ? (
+          <Login onSwitchToRegister={switchToRegister} onLoginSuccess={handleLoginSuccess} />
+        ) : (
+          <Register onSwitchToLogin={switchToLogin} onRegisterSuccess={handleRegisterSuccess} />
+        )}
+      </>
+    );
+  }
+
+  return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Box sx={{ 
+        height: '100vh',
+        display: 'flex',
+        overflow: 'hidden',
+        bgcolor: '#efeae2'
+      }}>
+        {/* Sidebar */}
+        <Box sx={{ 
+          width: isMobileView ? '100%' : 'var(--sidebar-width)',
+          display: isMobileView && !showSidebar ? 'none' : 'block',
+          height: '100%',
+          position: isMobileView ? 'absolute' : 'relative',
+          zIndex: 2,
+          bgcolor: '#fff'
+        }}>
+          <Sidebar
+            conversations={conversations}
+            onSelect={handleConversationSelect}
+            selectedConversation={selected?.wa_id}
+            currentUser={currentUser ?? undefined}
+            onOpenView={openView}
+            activeView={activeView}
+            handleLogout={handleLogout}
+          />
+        </Box>
+
+        {/* Chat Window */}
+        <Box sx={{ 
+          flex: 1,
+          display: isMobileView && showSidebar ? 'none' : 'flex',
+          height: '100%'
+        }}>
+          <ChatWindow 
+            conversation={selected}
+            currentUser={currentUser ?? undefined}
+            onMessageSent={(msg) => {
+              if (selected) {
+                const updatedConv = {
+                  ...selected,
+                  messages: [...selected.messages, msg]
+                };
+                setSelected(updatedConv);
+                setConversations(prev =>
+                  prev.map(c =>
+                    c.wa_id === selected.wa_id ? updatedConv : c
+                  )
+                );
+              }
+            }}
+            onBackClick={isMobileView ? handleBackToList : undefined}
+          />
+        </Box>
+      </Box>
+    </ThemeProvider>
+  );
 
   if (loading) {
     return (

@@ -26,9 +26,12 @@ interface ChatWindowProps {
   conversation: Conversation | null;
   currentUser?: { phone: string };
   onMessageSent?: (msg: Message) => void;
+  onBackClick?: () => void;
 }
 
-export default function ChatWindow({ conversation, currentUser, onMessageSent }: ChatWindowProps) {
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+
+export default function ChatWindow({ conversation, currentUser, onMessageSent, onBackClick }: ChatWindowProps) {
   console.log('ChatWindow rendered with conversation:', conversation);
   const [text, setText] = useState('');
   const [sending, setSending] = useState(false);
@@ -125,11 +128,15 @@ export default function ChatWindow({ conversation, currentUser, onMessageSent }:
         backgroundImage: 'url("data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23f0f2f5" fill-opacity="0.3"%3E%3Ccircle cx="30" cy="30" r="2"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")'
       }}>
         <Box sx={{ textAlign: 'center', maxWidth: 400 }}>
-          <Typography variant="h3" sx={{ mb: 2, color: '#667781', opacity: 0.5 }}>
-            💬
+          <Typography variant="h3" sx={{ mb: 2, opacity: 1 }}>
+            <img 
+              src="https://static.whatsapp.net/rsrc.php/v4/yP/r/rYZqPCBaG70.png" 
+              alt="WhatsApp Icon" 
+              style={{ width: '1em', height: '1em' }} 
+            />
           </Typography>
           <Typography variant="h4" sx={{ mb: 2, color: '#111b21', fontWeight: 300 }}>
-            Welcome to WhatsApp Web
+            Welcome to WhatsApp Web Clone
           </Typography>
           <Typography variant="body1" sx={{ color: '#667781' }}>
             Select a conversation to start messaging
@@ -153,6 +160,14 @@ export default function ChatWindow({ conversation, currentUser, onMessageSent }:
         borderBottom: '1px solid #e9edef'
       }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+          {onBackClick && (
+            <IconButton 
+              onClick={onBackClick}
+              
+            >
+              <ArrowBackIcon />
+            </IconButton>
+          )}
           <Avatar 
             sx={{ 
               bgcolor: '#00a884', 
