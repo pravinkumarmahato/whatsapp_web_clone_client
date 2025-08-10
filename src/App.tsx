@@ -224,9 +224,15 @@ export default function App() {
           justifyContent: 'center'
         }}>
           <Box sx={{ textAlign: 'center', color: 'white' }}>
-            <Box sx={{ fontSize: '4rem', mb: 2 }}>💬</Box>
+            <Box sx={{ fontSize: '4rem', mb: 2 }}>
+              <img 
+                src="https://static.whatsapp.net/rsrc.php/v4/yP/r/rYZqPCBaG70.png" 
+                alt="WhatsApp Icon" 
+                style={{ width: '1em', height: '1em' }} 
+              />
+            </Box>
             <Box sx={{ fontSize: '1.5rem', fontWeight: 600 }}>
-              Loading WhatsApp Web...
+              Loading WhatsApp Web Clone...
             </Box>
           </Box>
         </Box>

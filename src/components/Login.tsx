@@ -68,7 +68,13 @@ export default function Login({ onSwitchToRegister, onLoginSuccess }: LoginProps
           p: 4, 
           textAlign: 'center' 
         }}>
-          <Box sx={{ fontSize: '3rem', mb: 2 }}>💬</Box>
+          <Box sx={{ fontSize: '3rem', mb: 2 }}>
+            <img 
+              src="https://static.whatsapp.net/rsrc.php/v4/yP/r/rYZqPCBaG70.png" 
+              alt="WhatsApp Icon" 
+              style={{ width: '1em', height: '1em' }} 
+            />
+          </Box>
           <Typography variant="h4" sx={{ fontWeight: 600, mb: 1 }}>
             WhatsApp Web
           </Typography>
