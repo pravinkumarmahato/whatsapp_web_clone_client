@@ -60,7 +60,6 @@ export default function App() {
       loadConversations();
 
       const handleMessage = (msg: Message) => {
-        console.log('New message received:', msg);
         setConversations((prev) => {
           let updated = prev.map((conv) => {
             if (conv.wa_id === msg.from || conv.wa_id === msg.to) {
