@@ -2,6 +2,29 @@
 
 A modern WhatsApp Web clone built with React, TypeScript, and Tailwind CSS.
 
+
+## 🔗 Live Demo
+- 🌐 Frontend: https://whatsapp-web-clone-client-plum.vercel.app/
+- ⚙️ Backend API : https://whatsapp-web-clone-server-82p9.onrender.com
+
+## Github Repo
+-  Frontend: https://github.com/pravinkumarmahato/whatsapp_web_clone_client
+-  Backend API : https://github.com/pravinkumarmahato/whatsapp_web_clone_server
+
+## User for Demo
+### Ravi Kumar
+  - Phone Number: 919937320320
+  - Password: @Ravi1234
+
+### Neha Joshi
+  - Phone Number: 929967673820
+  - Password: @Neha1234
+
+### Raghav
+  - Phone Number: 918329446654
+  - Password: @Raghav1234
+
+
 ## Features
 
 - 🔐 **Authentication**: Login and registration system
@@ -17,6 +40,7 @@ A modern WhatsApp Web clone built with React, TypeScript, and Tailwind CSS.
 - **React 19** - UI framework
 - **TypeScript** - Type safety
 - **Tailwind CSS** - Styling
+- **Material UI** - Styling
 - **Socket.io Client** - Real-time communication
 - **Axios** - HTTP client
 - **Vite** - Build tool
@@ -65,18 +89,28 @@ npm run dev
 
 ```
 src/
-├── components/          # React components
-│   ├── ChatWindow.tsx  # Main chat interface
-│   ├── Sidebar.tsx     # Conversation list
-│   ├── Login.tsx       # Login form
-│   └── Register.tsx    # Registration form
-├── services/           # API services
-│   └── api.ts         # HTTP client and API calls
-├── socket/            # Socket.io configuration
-│   └── socket.ts      # Socket connection
-├── types.ts           # TypeScript type definitions
-├── App.tsx           # Main application component
-└── main.tsx          # Application entry point
+├── assets/                 # Icon Svg files
+├── components/             # React components
+│   ├── chatMenu.tsx        # Left Side chat Nevigation Window
+│   ├── ChatWindow.tsx      # Main chat interface
+│   ├── SettingMenu.tsx     # Left Side Setting Nevigation Window
+│   ├── NewChatWindow.tsx   # New chat interface to start chatting with a new person
+│   ├── Sidebar.tsx         # Conversation list
+│   ├── Login.tsx           # Login form
+│   └── Register.tsx        # Registration form
+├── services/               # API services
+│   └── api.ts              # HTTP client and API calls
+├── socket/                 # Socket.io configuration
+│   └── socket.ts           # Socket connection
+├── utils/                  # Configuration and common functions
+│   └── utils.ts            
+├── types.ts                # TypeScript type definitions
+├── svg.d.ts                # Custom svg module definition
+├── App.tsx                 # Main application component
+├── App.css                 # Main application stylesheet
+├── main.tsx                # Application entry point
+└── index.css               # Application entry point stylesheet
+
 ```
 
 ## API Endpoints
@@ -88,6 +122,7 @@ The client communicates with the following server endpoints:
 - `GET /api/messages/conversations` - Get all conversations
 - `GET /api/messages/:id` - Get messages for a conversation
 - `POST /api/messages` - Send a new message
+- `GET /api/auth/login?phone=<phone>` - search valid phone number to start new chat
 
 ## Socket Events
 
@@ -105,25 +140,6 @@ The application uses Tailwind CSS with custom WhatsApp Web colors:
 
 ## Development
 
-### Available Scripts
-
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run preview` - Preview production build
-- `npm run lint` - Run ESLint
-
 ### Environment Variables
 
-- `VITE_SERVER_URL` - Backend server URL (default: http://localhost:5000)
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests if applicable
-5. Submit a pull request
-
-## License
-
-This project is for educational purposes only.
+- `VITE_SERVER_URL` - Backend server URL : https://whatsapp-web-clone-server-82p9.onrender.com (default: http://localhost:5000)
