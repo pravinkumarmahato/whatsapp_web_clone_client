@@ -144,6 +144,15 @@ export default function App() {
     setIsAuthenticated(true);
     setShowLogin(true);
     const token = localStorage.getItem('token');
+    const userData = localStorage.getItem('user');
+    if (userData) {
+      try {
+        const user = JSON.parse(userData);
+        setCurrentUser(user);
+      } catch {
+        setCurrentUser(null);
+      }
+    }
     if (token) {
       const newSocket = createSocket(token);
       setSocketInstance(newSocket);
