@@ -388,6 +388,7 @@ export default function ChatWindow({ conversation, currentUser, onMessageSent, o
             value={text}
             onChange={(e) => setText(e.target.value)}
             onKeyPress={handleKeyPress}
+            fullWidth
             multiline
             maxRows={4}
             sx={{ 
