@@ -155,6 +155,14 @@ export default function Login({ onSwitchToRegister, onLoginSuccess }: LoginProps
             </Button>
           </Box>
         </Box>
+
+        <Box sx={{ bgcolor: '#f5f5f5', p: 2, textAlign: 'center' }}>
+          <Typography variant="caption" color="text.secondary">
+            This is a personal demo project for learning purposes.
+            <br />
+            It is not affiliated with WhatsApp or Meta.
+          </Typography>
+        </Box>
       </Paper>
     </Box>
   );
